@@ -1,0 +1,13 @@
+__pycahe__/
+*.py[cod]
+
+.Python
+env/
+
+db.sqlite3
+.DS_Store
+
+.vscode/
+.env
+
+secrets.json
