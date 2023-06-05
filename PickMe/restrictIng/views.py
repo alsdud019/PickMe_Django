@@ -1,10 +1,18 @@
 
+from pathlib import Path
+import os, json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import requests
 from restrictIng.models import ingredeintList
 from restrictIng.seriallizers import totalSelializer
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
+
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
 
 class imageAPI(APIView):    
     def post(self, req):
@@ -13,7 +21,7 @@ class imageAPI(APIView):
             byte_str=req_img.read()
 
             req_json={'image':byte_str}
-            MODEL_SERVER='http://133.186.213.221:5000/imgTest' 
+            MODEL_SERVER=secrets['MODEL_SERVER'] 
             res=requests.post(MODEL_SERVER,files=req_json)
 
             if res:                
