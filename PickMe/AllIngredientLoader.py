@@ -7,7 +7,7 @@ import django
 django.setup()
 from restrictIng.models import allIngredientList
 
-for i in range(175,207):
+for i in range(1,207):
     url='https://apis.data.go.kr/1471000/CsmtcsIngdCpntInfoService/getCsmtcsIngdCpntInfoService?serviceKey=da6yY52o3ERSZU9AJC9FjiIpdnDsq3CAOfrFx3BPAt5IQbdxNd%2Boi5c6nmfvivvtiLpDZQpoc93KX4%2FOkeef7A%3D%3D&pageNo='+str(i)+'&numOfRows=100&type=json'
 
     response=requests.get(url)
