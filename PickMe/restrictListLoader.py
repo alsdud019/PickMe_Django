@@ -1,6 +1,5 @@
 import requests
 import os
-import pprint
 import json
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','PickMe.settings')
@@ -54,7 +53,7 @@ def insertDB(json_result):
                      restrict_country=ingredient['restrict_country'],
                      restrict_limit=ingredient['restrict_limit']).save()
 
-for i in range(1,110):
+for i in range(1,118):
     url='https://apis.data.go.kr/1471000/CsmtcsUseRstrcInfoService/getCsmtcsUseRstrcInfoService?serviceKey=da6yY52o3ERSZU9AJC9FjiIpdnDsq3CAOfrFx3BPAt5IQbdxNd%2Boi5c6nmfvivvtiLpDZQpoc93KX4%2FOkeef7A%3D%3D&pageNo='+str(i)+'&numOfRows=100&type=json'
     restrict_json_result=loadjson(url)
     insertDB(restrict_json_result)
