@@ -13,16 +13,34 @@ class PostSerializer(serializers.ModelSerializer):
         model=imgpost
         fields='__all__'
 
-class ingNameTypeSelializer(serializers.ModelSerializer):
+class ingKoNameTypeSelializer(serializers.ModelSerializer):
+    ingredient_name=serializers.CharField(source="ingredient_ko_name")
     class Meta:
         model=ingredeintList
-        fields=('ingredient_ko_name','restrict_type')
+        fields=('ingredient_name','restrict_type')
 
-class restrictNameLimitSelializer(serializers.ModelSerializer):
+class restrictKoNameLimitSelializer(serializers.ModelSerializer):
+    ingredient_name=serializers.CharField(source="ingredient_ko_name")
     class Meta:
         model=ingredeintList
-        fields=('ingredient_ko_name','restrict_limit')
+        fields=('ingredient_name','restrict_limit')
 
-class totalSelializer(serializers.Serializer):
-    all_ingredient=ingNameTypeSelializer(many=True)
-    restrict_ingredient=restrictNameLimitSelializer(many=True)
+class totalKoSelializer(serializers.Serializer):
+    all_ingredient=ingKoNameTypeSelializer(many=True)
+    restrict_ingredient=restrictKoNameLimitSelializer(many=True)
+
+class ingEnNameTypeSelializer(serializers.ModelSerializer):
+    ingredient_name=serializers.CharField(source="ingredient_en_name")
+    class Meta:
+        model=ingredeintList
+        fields=('ingredient_name','restrict_type')
+
+class restrictEnNameLimitSelializer(serializers.ModelSerializer):
+    ingredient_name=serializers.CharField(source="ingredient_en_name")
+    class Meta:
+        model=ingredeintList
+        fields=('ingredient_name','restrict_limit')    
+
+class totalEnSelializer(serializers.Serializer):
+    all_ingredient=ingEnNameTypeSelializer(many=True)
+    restrict_ingredient=restrictEnNameLimitSelializer(many=True)
