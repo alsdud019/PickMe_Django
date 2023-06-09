@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import requests
 from restrictIng.models import ingredeintList
-from restrictIng.seriallizers import totalSelializer
+from restrictIng.seriallizers import totalEnSelializer,totalKoSelializer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
@@ -39,16 +39,38 @@ class imageAPI(APIView):
 def db_to_search(res):
     restrict_list=[]
     all_list=[]
-    for i in res['all_ingredient_name']:
-        querySet=ingredeintList.objects.filter(ingredient_ko_name=i).values()
-        all_list.append(querySet[0])
-        if querySet[0]['restrict_type']==True:
-            restrict_list.append(querySet[0])
-    data={
+    querySet = None
+    if res['language']=='korean':
+        for i in res['all_ingredient_name']:           
+            # 검색 결과가 없는경우 추가하지 않음 
+            if ingredeintList.objects.filter(ingredient_ko_name=i).count()==0:
+                continue
+            else:
+                querySet=ingredeintList.objects.filter(ingredient_ko_name=i).values()
+            # print(querySet[0])
+            all_list.append(querySet[0])
+            if querySet[0]['restrict_type']==True:
+                restrict_list.append(querySet[0])
+        data={
         'all_ingredient':all_list,
         'restrict_ingredient':restrict_list
-    }
-    serializer=totalSelializer(instance=data)
+        }
+        serializer=totalKoSelializer(instance=data)
+    else:
+        for i in res['all_ingredient_name']:       
+            # 검색 결과가 없는경우 추가하지 않음 
+            if ingredeintList.objects.filter(ingredient_en_name=i).count()==0:
+                continue
+            else:
+                querySet=ingredeintList.objects.filter(ingredient_en_name=i).values()
+            print(querySet[0])
+            all_list.append(querySet[0])
+            if querySet[0]['restrict_type']==True:
+                restrict_list.append(querySet[0])
+        data={
+        'all_ingredient':all_list,
+        'restrict_ingredient':restrict_list        
+        }
+        serializer=totalEnSelializer(instance=data)
     return serializer.data        
-
 
